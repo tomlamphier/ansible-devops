@@ -1,0 +1,24 @@
+---
+- name: get repo for jenkins
+  get_url: url=http://pkg.jenkins-ci.org/redhat/jenkins.repo dest=/etc/yum.repos.d/jenkins.repo
+
+- name: get key for repo
+  command: rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+
+- name: install jenkins
+  yum: name=jenkins state=present
+  
+- name: start jenkins
+  service: name=jenkins state=restarted enabled=yes
+
+- name: give jenkins time to store initial password
+  wait_for: path=/var/lib/jenkins/secrets/initialAdminPassword
+
+- name: get initial admin password
+  command: cat /var/lib/jenkins/secrets/initialAdminPassword
+  register: admin_password
+# restart later
+  notify: restart jenkins 
+
+- name: display admin password
+  debug: msg="initial admin password is {{admin_password.stdout}}"

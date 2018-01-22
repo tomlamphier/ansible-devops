@@ -1,0 +1,19 @@
+---
+- name: check java version
+  shell: java -version 2>&1 | grep 'version "1.8' || echo 'not 1.8'
+  register: java_version
+
+- name: conditionally install Java JDK 1.8
+  yum: name=java-1.8.0-openjdk-devel state=present
+  when: java_version.stdout == 'not 1.8'
+
+- name: conditionally remove old JDK
+  yum: name=java-1.7* state=removed
+  when: java_version.stdout == 'not 1.8'
+
+- name: Enable EPEL repo
+  command: sudo yum-config-manager --enable epel
+
+- name: upgrade all packages
+  yum: name='*' state=latest
+

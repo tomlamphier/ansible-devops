@@ -1,0 +1,6 @@
+---
+- name: install ansible
+  yum: name=ansible state=present
+
+- name: copy private key
+  copy: src=devops-1-keypair.pem dest=/home/ec2-user/devops-1-keypair.pem mode=400 owner=ec2-user group=ec2-user

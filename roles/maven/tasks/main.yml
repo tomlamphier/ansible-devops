@@ -1,0 +1,14 @@
+---
+- name: download maven archive
+  get_url: url=http://mirror.cc.columbia.edu/pub/software/apache/maven/maven-3/{{maven_version}}/binaries/apache-maven-{{maven_version}}-bin.tar.gz dest=/usr/local/apache-maven.tar.gz checksum=md5:{{maven_md5}}
+
+- name: extract maven 
+  command: chdir=/usr/local sudo tar xzvf /usr/local/apache-maven.tar.gz 
+
+- name: add maven to PATH
+  template: src=maven.sh dest=/etc/profile.d/maven.sh
+
+- name: maven cleanup step 
+  file: path=/usr/local/apache-maven.tar.gz state=absent
+
+
