@@ -1,0 +1,9 @@
+---
+- name: build tomcat 8 server  
+  hosts: tomcat-vm
+  remote_user: ec2-user
+  become: yes
+
+  roles:
+    - common
+    - tomcat
