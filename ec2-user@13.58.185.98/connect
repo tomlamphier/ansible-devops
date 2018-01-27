@@ -1,1 +1,0 @@
-ssh -i devops-private-key.pem ec2-user@18.216.254.66

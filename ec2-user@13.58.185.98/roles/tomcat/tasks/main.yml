@@ -1,6 +1,0 @@
----
-- name: copy scripts for tomcat
-  copy: src={{item}} dest=/home/ec2-user/{{item}} mode=a+x
-  with_items:
-    - start-tomcat
-    - stop-tomcat
